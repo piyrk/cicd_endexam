@@ -19,10 +19,11 @@ jobs:
         with:
           node-version: '18'
 
-      - name: npm ci
+      - name: Install dependencies
         run: npm ci
 
-      - name: Install dependencies
+      # If you want to ensure latest Vite is present, keep this step
+      - name: Ensure Vite is installed
         run: npm install vite@latest
 
       - name: Run tests

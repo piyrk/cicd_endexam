@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+# grant write permission so the job can push to gh-pages
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -11,6 +15,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # <-- required so the token is available to git
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -18,7 +24,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci                  # deterministic install that uses package-lock.json
 
       - name: Build project
         run: npm run build
